@@ -6412,6 +6412,8 @@ self: super: with self; {
 
   iowait = callPackage ../development/python-modules/iowait { };
 
+  ip2location = callPackage ../development/python-modules/ip2location { };
+
   ipadic = callPackage ../development/python-modules/ipadic { };
 
   ipaddr = callPackage ../development/python-modules/ipaddr { };
