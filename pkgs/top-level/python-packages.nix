@@ -7302,6 +7302,8 @@ self: super: with self; {
     inherit (pkgs) libsass;
   };
 
+  libsast = callPackage ../development/python-modules/libsast { };
+
   libsavitar = callPackage ../development/python-modules/libsavitar { };
 
   libsbml = toPythonModule (pkgs.libsbml.override {
