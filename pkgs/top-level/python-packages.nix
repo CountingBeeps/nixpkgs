@@ -6052,6 +6052,8 @@ self: super: with self; {
 
   httpsig = callPackage ../development/python-modules/httpsig { };
 
+  http-tools = callPackage ../development/python-modules/http-tools { };
+
   httptools = callPackage ../development/python-modules/httptools { };
 
   httpx = callPackage ../development/python-modules/httpx { };
