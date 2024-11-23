@@ -8,21 +8,22 @@
   darwin,
 }:
 let
-  version = "16.0.19";
+  version = "16.1.4";
   format = "setuptools";
 
-  devkit = {
-    aarch64-darwin = fetchurl {
-      url = "https://github.com/frida/frida/releases/download/${version}/frida-core-devkit-${version}-macos-arm64.tar.xz";
-      hash = "sha256-5VAZnpHQ5wjl7IM96GhIKOfFYHFDKKOoSjN1STna2UA=";
-    };
+  devkit =
+    {
+      aarch64-darwin = fetchurl {
+        url = "https://github.com/frida/frida/releases/download/${version}/frida-core-devkit-${version}-macos-arm64.tar.xz";
+        hash = "sha256-a9YsEbGJraP/gqYzc5EeWzacgZEqwcDFixapBqqhQlI=";
+      };
 
-    x86_64-linux = fetchurl {
-      url = "https://github.com/frida/frida/releases/download/${version}/frida-core-devkit-${version}-linux-x86_64.tar.xz";
-      hash = "sha256-yNXNqv8eCbpdQKFShpAh6rUCEuItrOSNNLOjESimPdk=";
-    };
-  }.${stdenv.hostPlatform.system}
-    or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+      x86_64-linux = fetchurl {
+        url = "https://github.com/frida/frida/releases/download/${version}/frida-core-devkit-${version}-linux-x86_64.tar.xz";
+        hash = "sha256-C0PyBNpofSWahOA3Te+LJECar0QUsr4kvIKVS9NMIRE=";
+      };
+    }
+    .${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
 in
 buildPythonPackage rec {
@@ -32,7 +33,7 @@ buildPythonPackage rec {
   src = fetchPypi {
     pname = "frida";
     inherit version;
-    hash = "sha256-rikIjjn9wA8VL/St/2JJTcueimn+q/URbt9lw/+nalY=";
+    hash = "sha256-stOiL4QizZN57io8qHDlDNsXBs+ki+lYe/g11j5R5YI=";
   };
 
   postPatch = ''
@@ -62,6 +63,9 @@ buildPythonPackage rec {
     homepage = "https://www.frida.re";
     license = lib.licenses.wxWindows;
     maintainers = with lib.maintainers; [ s1341 ];
-    platforms = [ "aarch64-darwin" "x86_64-linux" ];
+    platforms = [
+      "aarch64-darwin"
+      "x86_64-linux"
+    ];
   };
 }
