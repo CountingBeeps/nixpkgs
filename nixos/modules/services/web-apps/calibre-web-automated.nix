@@ -130,14 +130,14 @@ in
     };
 
     users.users = mkIf (cfg.user == "calibre-web-automated") {
-      calibre-web = {
+      calibre-web-automated = {
         isSystemUser = true;
         group = cfg.group;
       };
     };
 
     users.groups = mkIf (cfg.group == "calibre-web-automated") {
-      calibre-web = { };
+      calibre-web-automated = { };
     };
   };
 
