@@ -84,7 +84,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    systemd.services.calibre-web =
+    systemd.services.calibre-web-automated =
       let
         appDb = "${cfg.dataDir}/app.db";
         calibreWebCmd = "${cfg.package}/bin/calibre-web -p ${appDb}";
