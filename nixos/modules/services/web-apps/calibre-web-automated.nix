@@ -92,11 +92,6 @@ in
         settings = concatStringsSep ", " (
           [
             "config_port = ${toString cfg.listen.port}"
-            "config_uploading = ${if cfg.options.enableBookUploading then "1" else "0"}"
-            "config_allow_reverse_proxy_header_login = ${
-              if cfg.options.reverseProxyAuth.enable then "1" else "0"
-            }"
-            "config_reverse_proxy_login_header_name = '${cfg.options.reverseProxyAuth.header}'"
           ]
           ++ optional (
             cfg.options.calibreLibrary != null
