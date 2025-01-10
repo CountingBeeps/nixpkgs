@@ -87,7 +87,7 @@ in
     systemd.services.calibre-web-automated =
       let
         appDb = "${cfg.dataDir}/app.db";
-        calibreWebCmd = "${cfg.package}/bin/calibre-web-automatic -p ${appDb}";
+        calibreWebCmd = "${cfg.package}/bin/calibre-web-automated -p ${appDb}";
 
         settings = concatStringsSep ", " (
           [
