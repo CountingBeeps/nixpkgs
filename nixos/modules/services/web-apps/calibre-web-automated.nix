@@ -87,7 +87,7 @@ in
     systemd.services.calibre-web-automated =
       let
         appDb = "${cfg.dataDir}/app.db";
-        calibreWebCmd = "${cfg.package}/bin/calibre-web -p ${appDb}";
+        calibreWebCmd = "${cfg.package}/bin/calibre-web-automatic -p ${appDb}";
 
         settings = concatStringsSep ", " (
           [
@@ -109,6 +109,7 @@ in
           Group = cfg.group;
 
           StateDirectory = cfg.dataDir;
+
           ExecStartPre = pkgs.writeShellScript "calibre-web-pre-start" (''
             __RUN_MIGRATIONS_AND_EXIT=1 ${calibreWebCmd}
 
