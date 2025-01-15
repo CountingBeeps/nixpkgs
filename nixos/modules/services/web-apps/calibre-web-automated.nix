@@ -45,7 +45,7 @@ in
 
       dataDir = mkOption {
         type = types.str;
-        default = "/var/lib/calibre-web-automated";
+        default = "/var/lib/";
         description = ''
           The directory where CWA stores its data.
         '';
@@ -108,7 +108,9 @@ in
           User = cfg.user;
           Group = cfg.group;
 
-          StateDirectory = cfg.dataDir;
+          # Hard coded paths make this not configurable
+          # Maybe patch the package to allow them to be?
+          StateDirectory = "calibre-web-automated";
 
           ExecStartPre = pkgs.writeShellScript "calibre-web-pre-start" (''
             ${cfg.package}/bin/auto-library
