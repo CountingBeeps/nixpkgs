@@ -44,10 +44,6 @@ python.pkgs.buildPythonApplication rec {
     # to its location, which can't be done as the store is read-only. Log file location can later be configured using UI
     # if needed.
     ./default-logger.patch
-    # DB migrations adds an env var __RUN_MIGRATIONS_ANDEXIT that, when set, instructs calibre-web to run DB migrations
-    # and exit. This is gonna be used to configure calibre-web declaratively, as most of its configuration parameters
-    # are stored in the DB.
-    ./db-migrations.patch
   ];
 
   propagatedBuildInputs = with python.pkgs; [
@@ -78,14 +74,34 @@ python.pkgs.buildPythonApplication rec {
   ];
 
   postInstall = ''
-    ls
     mkdir -p $out/app/calibre-web
+    mkdir -p $out/app/calibre-web-automated
+    mkdir -p $out/bin/
 
     cp -r calibre-web/* $out/app/calibre-web
     cp -r cw-automated/root/app $out/
-    cp -r cw-automated/scripts $out/
+    cp -r cw-automated/{scripts,empty_library} $out/app/calibre-web-automated
 
-    mkdir -p $out/bin/
+    echo "--- WEB ---"
+    ls $out/app/calibre-web
+    echo "---- AUTO ----"
+    ls $out/app/calibre-web-automated
+    ls $out/app/calibre-web-automated/scripts
+
+    substituteInPlace $out/app/calibre-web-automated/scripts/auto-library.py \
+      --replace-error /app/calibre-web-automated/dirs.json /var/lib/calibre-web-automated/dirs.json \
+      --replace-error /config /var/lib/calibre-web-automated/config \
+      --replace-error /calibre-library /var/lib/calibre-web-automated/library \
+      --replace-error /app/calibre-web-automated $out/calibre-web-automated
+
+    for file in $out/app/calibre-web-automated/scripts/*.py; do
+      makeWrapper \
+        ${python.interpreter} \
+        $out/bin/$(basename "$file" .py) \
+        --add-flags $(basename "$file" .py) \
+        --chdir $out/app/calibre-web-automated/scripts \
+        --prefix PYTHONPATH : "$PYTHONPATH"
+    done
 
     makeWrapper \
       ${python.interpreter} \
@@ -93,8 +109,6 @@ python.pkgs.buildPythonApplication rec {
       --add-flags cps.py \
       --chdir $out/app/calibre-web \
       --prefix PYTHONPATH : "$PYTHONPATH"
-
-    ls $out/bin
   '';
 
   # Upstream repo doesn't provide any tests.

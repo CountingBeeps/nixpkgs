@@ -111,9 +111,7 @@ in
           StateDirectory = cfg.dataDir;
 
           ExecStartPre = pkgs.writeShellScript "calibre-web-pre-start" (''
-            __RUN_MIGRATIONS_AND_EXIT=1 ${calibreWebCmd}
-
-            ${pkgs.sqlite}/bin/sqlite3 ${appDb} "update settings set ${settings}"
+            ${cfg.package}/bin/auto-library
           '');
 
           ExecStart = "${calibreWebCmd} -i ${cfg.listen.ip}";
