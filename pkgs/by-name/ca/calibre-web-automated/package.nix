@@ -89,10 +89,10 @@ python.pkgs.buildPythonApplication rec {
     ls $out/app/calibre-web-automated/scripts
 
     substituteInPlace $out/app/calibre-web-automated/scripts/auto-library.py \
-      --replace-error /app/calibre-web-automated/dirs.json /var/lib/calibre-web-automated/dirs.json \
-      --replace-error /config /var/lib/calibre-web-automated/config \
-      --replace-error /calibre-library /var/lib/calibre-web-automated/library \
-      --replace-error /app/calibre-web-automated $out/calibre-web-automated
+      --replace-warn /app/calibre-web-automated/dirs.json /var/lib/calibre-web-automated/dirs.json \
+      --replace-warn /config /var/lib/calibre-web-automated/config \
+      --replace-warn /calibre-library /var/lib/calibre-web-automated/library \
+      --replace-warn /app/calibre-web-automated $out/calibre-web-automated
 
     for file in $out/app/calibre-web-automated/scripts/*.py; do
       makeWrapper \
