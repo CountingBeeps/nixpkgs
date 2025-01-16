@@ -113,6 +113,8 @@ in
           StateDirectory = "calibre-web-automated";
 
           ExecStartPre = pkgs.writeShellScript "calibre-web-pre-start" (''
+            mkdir -p /var/lib/calibre-web-automated/config
+
             ${cfg.package}/bin/auto-library
           '');
 
