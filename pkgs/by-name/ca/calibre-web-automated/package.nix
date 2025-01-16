@@ -82,17 +82,11 @@ python.pkgs.buildPythonApplication rec {
     cp -r cw-automated/root/app $out/
     cp -r cw-automated/{scripts,empty_library} $out/app/calibre-web-automated
 
-    echo "--- WEB ---"
-    ls $out/app/calibre-web
-    echo "---- AUTO ----"
-    ls $out/app/calibre-web-automated
-    ls $out/app/calibre-web-automated/scripts
-
     substituteInPlace $out/app/calibre-web-automated/scripts/auto-library.py \
       --replace-warn /app/calibre-web-automated/dirs.json /var/lib/calibre-web-automated/dirs.json \
       --replace-warn /config /var/lib/calibre-web-automated/config \
       --replace-warn /calibre-library /var/lib/calibre-web-automated/library \
-      --replace-warn /app/calibre-web-automated $out/calibre-web-automated
+      --replace-warn /app/calibre-web-automated $out/app/calibre-web-automated
 
     for file in $out/app/calibre-web-automated/scripts/*.py; do
       makeWrapper \
