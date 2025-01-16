@@ -98,7 +98,7 @@ python.pkgs.buildPythonApplication rec {
       makeWrapper \
         ${python.interpreter} \
         $out/bin/$(basename "$file" .py) \
-        --add-flags $(basename "$file" .py) + ".py" \
+        --add-flags "$(basename "$file" .py).py" \
         --chdir $out/app/calibre-web-automated/scripts \
         --prefix PYTHONPATH : "$PYTHONPATH"
     done
